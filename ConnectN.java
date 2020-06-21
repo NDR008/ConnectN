@@ -104,7 +104,7 @@ class ConnectN implements Board {
             System.out.println();
         }
         System.out.print(Colors.GREEN);
-        System.out.print(padding + "X ");
+        System.out.print(padding + "/ ");
         for (int i = 1; i <= maxX; i++) {
             System.out.print(Colors.BLUE + " " + Colors.GREEN + i);
         }
