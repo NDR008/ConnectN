@@ -7,21 +7,13 @@ class ConnectN implements Board {
     private int maxMoves = maxX * maxY;
     private int moveCounter = 0;
     private final char blankSpace = ' '; //In case blank spaces are not cool
-    private final String padding = "    ";
 
-    // Colors for terminal/console output
-    public class Colors {
-        public static final String RESET = "\033[0m";  // Text Reset
-        public static final String RED = "\033[1;31m";
-        public static final String GREEN = "\033[1;32m";
-        public static final String BLUE = "\033[1;34m";
-        public static final String PURPLE = "\033[1;35m";
-    }
-
+    /* Construct default Connect 4*/
     public ConnectN() {
         board = new char[maxX][maxY];
     }
 
+    /* Construct Connect N and check values are reasonable */
     public ConnectN(int x, int y, int nConnect) {
         if (nConnect > x) {
             x = nConnect; // if nConnect is 4, a grid of 0..4 is already 1 element larger
@@ -39,6 +31,7 @@ class ConnectN implements Board {
     }
 
     @Override
+    /* Initialise the board */
     public void initBoard() {
         moveCounter = 0;
         for (int i = 0; i < maxX; i++) {
@@ -46,10 +39,10 @@ class ConnectN implements Board {
                 board[i][j] = blankSpace;
             }
         }
-
     }
 
     @Override
+    /* Check if the board is at a full state or not */
     public boolean canMove() {
         if (moveCounter < maxMoves) {
             return true;
@@ -58,10 +51,12 @@ class ConnectN implements Board {
     }
 
     @Override
+    /* place the token at position x */
     public boolean makeMove(int x, char token) {
-        x = x - 1;
+        x = x - 1; // change x from user domain to java indexing domain.
         boolean spaceAvailable = false;
         int yPos = -1;
+        /* Check if token can be place at desired position */
         if (x >= 0 && x <= (maxX - 1)) {
             for (int j = (maxY - 1); j >= 0; j--) {
                 if (board[x][j] == blankSpace) {
@@ -79,41 +74,18 @@ class ConnectN implements Board {
     }
 
     @Override
+    /* Check if the user's move was a winning one */
     public boolean checkWin(char player) {
         return checkHorizontal(player) || checkVertical(player) || checkDiagonal3(player);
     }
 
     @Override
-    public void displayBoard() {
-        System.out.print(Colors.RED);
-        System.out.print(padding + "Game move count is... " + moveCounter + "   ");
-        System.out.print(Colors.RESET);
-        System.out.println();
-        System.out.print(Colors.PURPLE);
-        System.out.print("-------------------------------");
-        System.out.println(Colors.RESET);
-        for (int j = maxY - 1; j >= 0; j--) {
-            System.out.print(Colors.GREEN);
-            System.out.print(padding + (j + 1) + " ");
-            for (int i = 0; i < maxX; i++) {
-                System.out.print(Colors.BLUE + "|");
-                System.out.print(Colors.GREEN + board[i][j]);
-            }
-            System.out.print(Colors.BLUE + "|");
-            System.out.print(Colors.RESET);
-            System.out.println();
-        }
-        System.out.print(Colors.GREEN);
-        System.out.print(padding + "/ ");
-        for (int i = 1; i <= maxX; i++) {
-            System.out.print(Colors.BLUE + " " + Colors.GREEN + i);
-        }
-        System.out.print(Colors.BLUE + " ");
-        System.out.println();
-        System.out.print(Colors.PURPLE + "-------------------------------");
-        System.out.println(Colors.RESET);
+    /* return the board state */
+    public char[][] getBoard() {
+        return this.board;
     }
 
+    /* Check rows */
     private boolean checkHorizontal(char player) {
         int numberOfMatches = 0;
         for (int j = 0; j < maxY; j++) {
@@ -132,6 +104,7 @@ class ConnectN implements Board {
         return false;
     }
 
+    /* Check columns */
     private boolean checkVertical(char player) {
         int numberOfMatches = 0;
         for (int i = 0; i < maxX; i++) {
@@ -148,6 +121,45 @@ class ConnectN implements Board {
             numberOfMatches = 0;
         }
         return false;
+    }
+
+    /* Check leading & back diagonals  */
+    private boolean checkDiagonal3(char player) {
+        int numberOfMatchesDiag1 = 0;
+        int numberOfMatchesDiag2 = 0;
+        for (int i = -(maxY - 1); i < maxX; i++) {
+            for (int j = 0; j < maxY; j++) {
+                if (isWithinBounds(i + j, (maxY-1)-j)) {
+                    if (board[i + j][(maxY-1)-j] == player) {
+                        numberOfMatchesDiag1++;
+                    } else {
+                        numberOfMatchesDiag1 = 0;
+                    }
+                    if (numberOfMatchesDiag1 >= winValue) {
+                        return true;
+                    }
+                }
+                if (isWithinBounds(i + j, j)) {
+                    if (board[i + j][j] == player) {
+                        numberOfMatchesDiag2++;
+                    } else {
+                        numberOfMatchesDiag2 = 0;
+                    }
+                    if (numberOfMatchesDiag2 >= winValue) {
+                        return true;
+                    }
+                }
+            }
+            numberOfMatchesDiag1 = 0;
+            numberOfMatchesDiag2 =0;
+        }
+        return false;
+    }
+
+    /* Method used by the checkDiagonal3() method to make sure there is
+     * no attempt to index outside of the array limits. */
+    private boolean isWithinBounds(int x, int y) {
+        return !((x >= maxX || x < 0 || y < 0 || y >= maxY));
     }
 
     /*
@@ -202,46 +214,4 @@ class ConnectN implements Board {
     }
     */
 
-    private boolean checkDiagonal3(char player) {
-        int numberOfMatchesDiag1 = 0;
-        int numberOfMatchesDiag2 = 0;
-        for (int i = -(maxY - 1); i < maxX; i++) {
-            for (int j = 0; j < maxY; j++) {
-                /*if(true) { //Code to debug
-                    System.out.print("Diag1: " + (i + j + 1) + " " + ((maxY - 1) - j + 1));
-                    System.out.print("  ");
-                    System.out.println("Diag2: " + (i + j + 1) + " " + (j + 1));
-                }*/
-                if (isWithinBounds(i + j, (maxY-1)-j)) {
-                    if (board[i + j][(maxY-1)-j] == player) {
-                        numberOfMatchesDiag1++;
-                    } else {
-                        numberOfMatchesDiag1 = 0;
-                    }
-                    if (numberOfMatchesDiag1 >= winValue) {
-                        return true;
-                    }
-                }
-
-                if (isWithinBounds(i + j, j)) {
-                    if (board[i + j][j] == player) {
-                        numberOfMatchesDiag2++;
-                    } else {
-                        numberOfMatchesDiag2 = 0;
-                    }
-                    if (numberOfMatchesDiag2 >= winValue) {
-                        return true;
-                    }
-                }
-            }
-            //System.out.println();
-            numberOfMatchesDiag1 = 0;
-            numberOfMatchesDiag2 =0;
-        }
-        return false;
-    }
-
-    private boolean isWithinBounds(int x, int y) {
-        return !((x >= maxX || x < 0 || y < 0 || y >= maxY));
-    }
 }

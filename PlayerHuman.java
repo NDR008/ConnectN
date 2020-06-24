@@ -4,12 +4,15 @@ public class PlayerHuman extends Player {
 
     private BufferedReader reader;
 
+    /* Construct a human player */
     public PlayerHuman(char token, String name){
         super(token, name);
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     @Override
+    /* Since humans make mistakes we need to check their input
+     * Also check if the human wants to end the game. */
     public int getUserInput() {
         String inString;
         final int returnFailValue = 999;
@@ -28,6 +31,7 @@ public class PlayerHuman extends Player {
         }
     }
 
+    /* Checks if the string contains a number */
     public boolean isNumeric(String input) {
         try {
             {
