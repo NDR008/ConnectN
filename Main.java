@@ -1,6 +1,6 @@
 class Main {
     public static void main(String[] args) {
-        Game game; //Object name
+        GameSession game; //Object name
 
         /* Game can change x-y size of board AND connectN */
         if (args.length == 3) {
@@ -9,7 +9,7 @@ class Main {
                 int arg1 = Integer.parseInt(args[1]);
                 int arg2 = Integer.parseInt(args[2]);
                 if (checkBoardSize(arg0) && checkBoardSize(arg1) && checkRange(arg2)) {
-                    game = new Game(arg0, arg1, arg2);
+                    game = new GameSession(arg0, arg1, arg2);
                 } else {
                     System.out.println("Board axis must be less than 10 and larger than 5.");
                     System.out.println("ConnectN - where N is less than 7 and larger than 2.");
@@ -24,7 +24,7 @@ class Main {
             return;
         }else{
             System.out.println("Loading default game");
-            game = new Game();
+            game = new GameSession();
         }
         game.playGame();
     }

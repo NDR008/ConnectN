@@ -17,5 +17,5 @@ public interface PlayerIO {
     public String getName();
 
     /* Not used players can be give a snapshot of the board */
-    public void seeBoard(char[][] board);
+    public void getBoard(char[][] board);
 }

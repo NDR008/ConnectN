@@ -6,7 +6,7 @@ class ConnectN implements Board {
     private int maxY = 6;
     private int maxMoves = maxX * maxY;
     private int moveCounter = 0;
-    private final char blankSpace = ' '; //In case blank spaces are not cool
+    private final char blankSpace = ' ';
 
     /* Construct default Connect 4*/
     public ConnectN() {

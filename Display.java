@@ -6,7 +6,6 @@
 
 public class Display {
 
-    private final char blankSpace = ' '; //In case blank spaces are not cool
     private final int maxX;
     private final int maxY;
 
@@ -27,6 +26,7 @@ public class Display {
 
     /* Pure terminal print out */
     public void displayBoard(char[][] board) {
+        char blankSpaceFiller = '_';
         String padding = "    ";
         System.out.print(Colors.RED);
         System.out.print(Colors.RESET);
@@ -39,7 +39,12 @@ public class Display {
             System.out.print(padding + (j + 1) + " ");
             for (int i = 0; i < maxX; i++) {
                 System.out.print(Colors.BLUE + "|");
-                System.out.print(Colors.GREEN + board[i][j]);
+                if (board[i][j]==' '){
+                    System.out.print(Colors.GREEN + blankSpaceFiller);
+                }
+                else {
+                    System.out.print(Colors.GREEN + board[i][j]);
+                }
             }
             System.out.print(Colors.BLUE + "|");
             System.out.print(Colors.RESET);

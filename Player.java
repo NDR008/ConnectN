@@ -4,9 +4,9 @@ public abstract class Player implements PlayerIO {
     private String name;
     private int winCounter=0;
 
-    public Player(char token, String name){
-        this.name = name;
-        this.token = token;
+    public Player(char inToken, String inName){
+        name = inName;
+        token = inToken;
     }
 
     /* Take user's input */
@@ -34,7 +34,7 @@ public abstract class Player implements PlayerIO {
         return winCounter;
     }
 
-    public void seeBoard(char[][] board) {
+    public void getBoard(char[][] board) {
     }
 
 }

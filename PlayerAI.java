@@ -1,40 +1,66 @@
+import java.util.ArrayList;
 import java.util.Random;
-import  java.lang.Math;
+import java.lang.Math;
 
 public class PlayerAI extends Player {
-
-    private int upperLimit=0;
     private int middleCol;
     private Random r = new Random();
     private char[][] board;
-    int[] locations = new int[upperLimit];
+    private int maxY;
+    private int maxX;
 
-    public PlayerAI(char token, String name, int upperLimit){
+    public PlayerAI(char token, String name){
         super(token, name);
-        this.upperLimit=upperLimit;
-        middleCol = Math.round((((float) upperLimit+1)/2));
     }
 
     @Override
+    /* the AI will decide if it should just play towards the middle or try to block or try to win.
+     * The middle easily blocks the opponents from having the chance of a horizontal connect.
+     */
     public int getUserInput( ) {
-        /* currently the AI plays blindly knowing only the with of the board
-         * in the future the AI should make use of the board content
-         * to establish where is the best place to bias the move */
-        int out=0;
-        /* the AI biases to drop around the middle columns
-         * Middle columns prevent connect-4 in a traditional 7-column game */
-        for (int i=0; i<3; i++){
-            out = r.nextInt(upperLimit) + 1;
-            if ((out > (middleCol-1)) && (out < (middleCol+1))){
-                System.out.println(out);
-                return out;
+        int nextPlay = -1;
+        /* Buggy logic that does not work
+        for( int j = 0; j < maxY; j++ ){
+            for( int i = 2; i < maxX-2; i++ ) {
+                // Block the other player!
+                if (board[i][j] == getToken() && board[i - 1][j] == getToken()){
+                    nextPlay = i-2+1;
+                }
+                else if (board[i][j] == getToken() && board[i + 1][j] == getToken() ){
+                    nextPlay= i+2+1;
+                }
             }
         }
-        return out;
+        */
+        // Instead the PlayerAI will bias towards the middle //if (nextPlay == -1) {
+        do {
+            for (int i = 0; i < 2; i++) {
+                nextPlay = r.nextInt(maxX) + 1;
+                if ((nextPlay >= (middleCol - 1)) && (nextPlay <= (middleCol + 1))) {
+                    break;
+                }
+            }
+            System.out.println(nextPlay);
+        }
+        while (!checkForSpace(nextPlay));
+        return nextPlay;
     }
 
-    /* Method to be used in the future */
-    private void decideNextMove(){
+    @Override
+    public void getBoard(char[][] inBoard){
+        board = inBoard;
+        maxX = board.length;
+        maxY = board[0].length;
+        middleCol = Math.round((((float) maxX+1)/2));
     }
 
+    public boolean checkForSpace(int column){
+        column = column-1;
+        for (int i=0; i<maxY; i++){
+            if (board[column][i] == ' ') {
+                return true;
+            }
+        }
+        return false;
+    }
 }
