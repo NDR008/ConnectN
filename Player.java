@@ -1,5 +1,4 @@
 public abstract class Player implements PlayerIO {
-
     private char token;
     private String name;
     private int winCounter=0;

@@ -1,5 +1,4 @@
 public interface PlayerIO {
-
     /* All players need to give a value to the board
      * Values start from 1 (not 0) */
     public int getUserInput();

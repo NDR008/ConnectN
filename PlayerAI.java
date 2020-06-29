@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Random;
 import java.lang.Math;
 
@@ -40,7 +39,6 @@ public class PlayerAI extends Player {
                     break;
                 }
             }
-            System.out.println(nextPlay);
         }
         while (!checkForSpace(nextPlay));
         return nextPlay;

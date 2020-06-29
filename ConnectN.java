@@ -1,5 +1,4 @@
 class ConnectN implements Board {
-
     private char[][] board;
     private int winValue = 4;
     private int maxX = 7;
@@ -110,6 +109,7 @@ class ConnectN implements Board {
         for (int i = 0; i < maxX; i++) {
             for (int j = 0; j < maxY; j++) {
                 if (board[i][j] == player) {
+
                     numberOfMatches++;
                 } else {
                     numberOfMatches = 0;
@@ -127,7 +127,7 @@ class ConnectN implements Board {
     private boolean checkDiagonal3(char player) {
         int numberOfMatchesDiag1 = 0;
         int numberOfMatchesDiag2 = 0;
-        for (int i = -(maxY - 1); i < maxX; i++) {
+        for (int i = -(maxY - 1 - winValue); i < maxX; i++) {
             for (int j = 0; j < maxY; j++) {
                 if (isWithinBounds(i + j, (maxY-1)-j)) {
                     if (board[i + j][(maxY-1)-j] == player) {
@@ -151,7 +151,7 @@ class ConnectN implements Board {
                 }
             }
             numberOfMatchesDiag1 = 0;
-            numberOfMatchesDiag2 =0;
+            numberOfMatchesDiag2 = 0;
         }
         return false;
     }
@@ -161,6 +161,7 @@ class ConnectN implements Board {
     private boolean isWithinBounds(int x, int y) {
         return !((x >= maxX || x < 0 || y < 0 || y >= maxY));
     }
+
 
     /*
     // checkDiagonal1() integrated into checkDiagonal3()

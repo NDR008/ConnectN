@@ -5,7 +5,6 @@
  */
 
 public class Display {
-
     private final int maxX;
     private final int maxY;
 
@@ -42,7 +41,7 @@ public class Display {
                 if (board[i][j]==' '){
                     System.out.print(Colors.GREEN + blankSpaceFiller);
                 }
-                else {
+                else{
                     System.out.print(Colors.GREEN + board[i][j]);
                 }
             }
@@ -59,6 +58,12 @@ public class Display {
         System.out.println();
         System.out.print(Colors.PURPLE + "-------------------------------");
         System.out.println(Colors.RESET);
+    }
+
+    public void displayScores(String playerName, int wins){
+        System.out.println(Colors.BLUE + "Total wins for " + Colors.GREEN + playerName
+                + Colors.BLUE + ":\t" + Colors.RED + wins + Colors.BLUE +  " wins");
+        System.out.print(Colors.RESET);
     }
 
 }

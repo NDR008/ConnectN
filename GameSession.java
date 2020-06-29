@@ -27,7 +27,7 @@ public class GameSession{
         players.add(new PlayerAI('J', "Joshua (WOPR)"));
         players.add(new PlayerAI('S', "Sky Net System"));
         players.add(new PlayerHuman('M', "Michael Knight"));
-        //players.add(new PlayerAI('B', "James Bond"));
+        //players.add(new PlayerAI('Z', "Lord Zordon"));
         int numberOfPlayers = players.size();
         int currentIndex = 0;
         Player currentPlayer = players.get(currentIndex);
@@ -71,7 +71,7 @@ public class GameSession{
             }
             System.out.println("---------Score Board---------");
             for (int i =0; i<numberOfPlayers; i++){
-                System.out.println("Total wins for "+ players.get(i).getName() + ":\t" + players.get(i).getWins() + " wins");
+                displayObj.displayScores( players.get(i).getName(), players.get(i).getWins());
             }
             System.out.println();
             userContinue="";

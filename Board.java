@@ -2,7 +2,6 @@
  * Some games may have more complex moves
  */
 interface Board {
-
     /* set the board to start state */
     public void initBoard();
 
